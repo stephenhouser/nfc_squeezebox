@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+from pysqueezebox import Server, Player
+import sys
+import aiohttp
+import asyncio
+SERVER = '10.1.10.2' # ip address of Logitech Media Server
+
+year = 2000
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        lms = Server(session, SERVER)
+        players = await lms.async_get_players()
+        for p in players:
+            if p.name == 'Gameroom':
+                await p.async_command('dynamicplaylist', 'playlist', 'play', 
+                    'dplccustom_play_year', f'dynamicplaylist_parameter_1:{year}')
+                #await p.async_load_url('/music/Prince/Prince (1979)/')
+                await p.async_update()
+                print(f'Playing: {p.album} on player={p.name}')
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        year = sys.argv[1]
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass

@@ -1,0 +1,3 @@
+pysqueezebox
+paho-mqtt
+aiomqtt

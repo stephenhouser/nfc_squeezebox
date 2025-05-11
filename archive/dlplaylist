@@ -1,0 +1,5 @@
+#!/bin/bash
+
+player_id="b8:27:eb:4f:71:11"
+
+echo "${player_id} dynamicplaylist playlist play dplccustom_play_year dynamicplaylist_parameter_1:$1" | nc -c sahmaxi 9090

@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+from pysqueezebox import Server, Player
+import sys
+import aiohttp
+import asyncio
+SERVER = 'sahmaxi' # ip address of Logitech Media Server
+
+album = None
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        lms = Server(session, SERVER)
+        players = await lms.async_get_players()
+        for p in players:
+            if p.name == 'Gameroom':
+                #await p.async_pause()
+                #await p.async_stop()
+                await p.async_command('playlist', 'clear')
+                await p.async_update()
+                print(f'player={p.name} is mode={p.mode}')
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        album = sys.argv[1]
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass

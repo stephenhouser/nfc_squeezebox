@@ -1,0 +1,72 @@
+esphome:
+  name: example
+  friendly_name: example
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+  level: INFO
+  logs:
+    lms.component: INFO
+
+# use all components from a local folder
+external_components:
+  - source:
+      type: local
+      path: components
+
+lms:
+  id: lms_main
+  server: 10.1.10.2
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: True
+
+# Include CSS and JS directly to avoid needing Internet
+web_server:
+  local: true
+  
+  
+switch:
+  - platform: restart
+    name: "Example Restart"
+
+text_sensor:
+  - platform: template
+    name: "RFID Tag"
+    id: rfid_tag
+  - platform: wifi_info
+    mac_address:
+      name: "${friendly_name} MAC Address"
+
+# Example configuration entry for ESP32
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+  id: bus_a
+
+pn532_i2c:
+  update_interval: 1s
+  on_tag:
+    then:
+    - text_sensor.template.publish:
+        id: rfid_tag
+        state: !lambda 'return x;'
+    - lambda: |-
+        auto lms = id(lms_main);
+        lms->send_tag(x.c_str());
+
+  on_tag_removed:
+      then:
+      - text_sensor.template.publish:
+            id: rfid_tag
+            state: 'None'
+      - lambda: |-
+          auto lms = id(lms_main);
+          lms->send_tag("None");

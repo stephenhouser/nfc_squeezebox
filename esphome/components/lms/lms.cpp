@@ -58,7 +58,7 @@ void LMSComponent::dump_config() {
 void LMSComponent::send_tag(const char *tag_id) {
 	if (!_player_id.empty()) {
 		char message[256];
-		sprintf(message, "rfid tag %s\n", tag_id);
+		sprintf(message, "%s rfid tag %s\n", _player_id.c_str(), tag_id);
 		_client.write(message);
 	}
 }

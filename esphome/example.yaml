@@ -30,8 +30,7 @@ wifi:
 # Include CSS and JS directly to avoid needing Internet
 web_server:
   local: true
-  
-  
+
 switch:
   - platform: restart
     name: "Example Restart"

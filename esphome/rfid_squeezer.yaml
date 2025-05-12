@@ -1,0 +1,70 @@
+esphome:
+  name: rfid_squeezer
+  friendly_name: rfid_squeezer
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# use components from a local folder
+external_components:
+  - source:
+      type: local
+      path: components
+
+# The LMS Connection Configuration (external component)
+lms:
+  # uniqie id
+  id: slimserver
+  # server that hosts the LMS
+  server: sahmaxi.lan
+  # LMS client/player to control, hex id
+  client_id: b8:27:eb:4f:71:11
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: True
+
+web_server:
+  # Include CSS and JS directly to avoid needing Internet
+  local: true
+
+# A restart button for help debugging
+switch:
+  - platform: restart
+    name: "RFID Squeezer Restart"
+
+# Text for display in web and HomeAssistant
+text_sensor:
+  - platform: template
+    id: rfid_tag
+    name: "RFID Tag"
+
+# I2C for RFID Reader
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+  id: bus_a
+
+# RFID Reader Actions
+pn532_i2c:
+  update_interval: 1s
+  on_tag:
+    then:
+    - text_sensor.template.publish:
+        id: rfid_tag
+        state: !lambda 'return x;'
+    - lambda: |-
+        auto lms = id(slimserver);
+        lms->send_tag(x.c_str());
+  on_tag_removed:
+      then:
+      - text_sensor.template.publish:
+            id: rfid_tag
+            state: 'None'
+      - lambda: |-
+          auto lms = id(slimserver);
+          lms->send_tag_removed();

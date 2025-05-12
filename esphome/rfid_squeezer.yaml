@@ -18,7 +18,7 @@ lms:
   # uniqie id
   id: slimserver
   # server that hosts the LMS
-  server: sahmaxi.lan
+  server: !secret lms_server
   # LMS client/player to control, hex id
   client_id: b8:27:eb:4f:71:11
 

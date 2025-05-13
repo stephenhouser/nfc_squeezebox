@@ -19,7 +19,7 @@ lms:
   # server that hosts the LMS
   server: slimserver
   # LMS client/player to control, hex id
-  client_id: b8:27:eb:4f:71:11
+  client_id: 16:c9:43:a6:ab:bf
 
 wifi:
   ssid: !secret wifi_ssid

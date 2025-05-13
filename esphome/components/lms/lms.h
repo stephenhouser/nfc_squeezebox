@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <queue>
+
 // #include "esphome.h"
 #include "esphome/core/component.h"
 #include "esphome/core/hal.h"
@@ -22,8 +25,8 @@ class LMSComponent : public Component {
 		void dump_config() override;
 
 		/* *** Setters and Getters for Parameters *** */
-		void set_client_id(std::string client_id) { _client_id = std::move(client_id); }
-		std::string get_client_id() { return _client_id; }
+		void set_player(std::string player) { _player = std::move(player); }
+		std::string get_player() { return _player; }
 
 		void set_server(std::string server) { _server = std::move(server); }
 		std::string get_server() { return _server; }
@@ -35,12 +38,19 @@ class LMSComponent : public Component {
 		void send_tag(const std::string &tag);
 		void send_tag_removed();
 
+	protected:
+		void request_player_id();
+		void invalidate_player_id();
+
 	private:
 		AsyncClient _client;	/* TCP connection client */		
-		std::string _client_id;	/* LMS client id; in hex (b8:27:eb:4f:71:11) */
+		std::string _player;	/* LMS player name */
+		std::string _player_id;	/* LMS player id (discovered) */
 		std::string _server;	/* LMS server address */
 		uint16_t _port = 9090;	/* LMS server port */
 
+		std::queue<std::string> _queue;	/* queue of commands to send to LMS */
+		
 		bool _connected = false;	/* are we connected? */
 
 		/* *** Asynchronous TCP Connection Handlers *** */

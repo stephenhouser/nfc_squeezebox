@@ -10,7 +10,7 @@ fake:
 	@echo " - clean     clean up ESPHome stuff"
 	@echo " - distclean really clean up ESPHome stuff"
 
-reader:
+deploy:
 	./esphome run rfid_squeezer.yaml
 
 compile:

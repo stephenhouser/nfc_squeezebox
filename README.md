@@ -27,6 +27,8 @@ None,command,"playlist clear","stop playing and clear playlist"
 
 Commands are
     - 'album': play the files in an album, in order, relative to the /music directory
+    - 'shuffle': shuffle the files in an album
+    - 
     - 'url': play the "Internet radio" station given by the URL
     - 'year': play a dynamic playlist (preconfigured) to play songs from a year
     - 'command': send the given command directly to the LMS.

@@ -1,21 +1,136 @@
 tag,command,parameters,notes
-None,command,playlist clear,stop playing and clear playlist
-button1,command,playlist index +1,what to do when button pressed
-stop,command,playlist clear,stop playing and clear playlist
-skip,command,playlist index +1,skip to next item on playlist
-replay,command,playlist index -1,skip to previous item on playlist
-a6-21-b3-7c,url,"http://opml.radiotime.com/Tune.ashx?id=s24232&formats=aac,ogg,mp3&partnerId=15&serial=59bf631fddda17f8c19e2bc4914096f1",WHOOPIE 100.9 Radio
-04-ed-1e-ed-78-00-00,year,1970,Random items from 1970
-56:78:ac:bc,album,"Compilations/Like, Omigod! The '80s Pop Culture Box (Totally) (2002)",
-25-6d-6d-df,album,Daft Punk/Random Access Memories (2013),
-04-ba-ec-56-bf-2a-81,album,Compilations/Billboard Top 100 of 2001 (2001),
-fc-b2-50-23,album,Compilations/Billboard Top 100 of 1984 (1984),
-04-07-bc-f2-b4-76-81,album,Yazoo/Upstairs at Eric's (1982),
-8d-5e-33-b9,album,Compilations/Billboard Top 100 of 1999 (1999),
-04-9d-64-6c-bb-2a-81,album,Compilations/Billboard Top 100 of 1967 (1967),
-04-fd-77-ed-78-00-00,album,Elton John/Goodbye Yellow Brick Road (1973),
-0a-ef-db-d3,album,DEVO/Total Devo (1988),
-2a-b5-e8-d4,album,DEVO/Now It Can Be Told_ Devo at the Palace 12_9_88 (1989),
-b5-b3-6d-df,album,Marilyn Manson/Mechanical Animals (1998),
-a5-ec-20-df,album,Kid Rock/Devil Without a Cause (1998),
-05-51-84-df,album,Michael Jackson/Thriller (1982),
+--command--,,,"Internal Commands"
+removed,command,"playlist clear","stop playing and clear playlist"
+button1,command,"playlist index +1",what to do when button pressed
+stop,command,"playlist clear",stop playing and clear playlist
+skip,command,"playlist index +1",skip to next item on playlist
+replay,command,"playlist index -1",skip to previous item on playlist
+--decade--,,,"Decade Playlists (shuffle)"
+19-40-00-00,decade,"1940","Music from 1940's"
+19-50-00-00,decade,"1950","Music from 1950's"
+19-60-00-00,decade,"1960","Music from 1960's"
+19-70-00-00,decade,"1970","Music from 1970's"
+14-5F-C8-05,decade,"1980","Music from 1980's"
+19-90-00-00,decade,"1990","Music from 1990's"
+20-00-00-00,decade,"2000","Music from 2000's"
+20-10-00-00,decade,"2010","Music from 2010's"
+20-20-00-00,decade,"2020","Music from 2020's"
+--year--,,,"Year Playlists (shuffle)"
+00-00-19-40,year,"1940","Music from 1940"
+00-00-19-41,year,"1941","Music from 1941"
+00-00-19-42,year,"1942","Music from 1942"
+00-00-19-43,year,"1943","Music from 1943"
+00-00-19-44,year,"1944","Music from 1944"
+00-00-19-45,year,"1945","Music from 1945"
+00-00-19-46,year,"1946","Music from 1946"
+00-00-19-47,year,"1947","Music from 1947"
+00-00-19-48,year,"1948","Music from 1948"
+00-00-19-49,year,"1949","Music from 1949"
+00-00-19-50,year,"1950","Music from 1950"
+00-00-19-51,year,"1951","Music from 1951"
+00-00-19-52,year,"1952","Music from 1952"
+00-00-19-53,year,"1953","Music from 1953"
+00-00-19-54,year,"1954","Music from 1954"
+00-00-19-55,year,"1955","Music from 1955"
+00-00-19-56,year,"1956","Music from 1956"
+00-00-19-57,year,"1957","Music from 1957"
+00-00-19-58,year,"1958","Music from 1958"
+00-00-19-59,year,"1959","Music from 1959"
+00-00-19-60,year,"1960","Music from 1960"
+00-00-19-61,year,"1961","Music from 1961"
+00-00-19-62,year,"1962","Music from 1962"
+00-00-19-63,year,"1963","Music from 1963"
+00-00-19-64,year,"1964","Music from 1964"
+00-00-19-65,year,"1965","Music from 1965"
+00-00-19-66,year,"1966","Music from 1966"
+00-00-19-67,year,"1967","Music from 1967"
+00-00-19-68,year,"1968","Music from 1968"
+00-00-19-69,year,"1969","Music from 1969"
+04-ed-1e-ed-78-00-00,year,"1970","Music from 1970"
+00-00-19-71,year,"1971","Music from 1971"
+00-00-19-72,year,"1972","Music from 1972"
+00-00-19-73,year,"1973","Music from 1973"
+00-00-19-74,year,"1974","Music from 1974"
+00-00-19-75,year,"1975","Music from 1975"
+00-00-19-76,year,"1976","Music from 1976"
+00-00-19-77,year,"1977","Music from 1977"
+00-00-19-78,year,"1978","Music from 1978"
+00-00-19-79,year,"1979","Music from 1979"
+00-00-19-80,year,"1980","Music from 1980"
+00-00-19-81,year,"1981","Music from 1981"
+00-00-19-82,year,"1982","Music from 1982"
+00-00-19-83,year,"1983","Music from 1983"
+00-00-19-84,year,"1984","Music from 1984"
+00-00-19-85,year,"1985","Music from 1985"
+00-00-19-86,year,"1986","Music from 1986"
+00-00-19-87,year,"1987","Music from 1987"
+00-00-19-88,year,"1988","Music from 1988"
+00-00-19-89,year,"1989","Music from 1989"
+00-00-19-90,year,"1990","Music from 1990"
+00-00-19-91,year,"1991","Music from 1991"
+00-00-19-92,year,"1992","Music from 1992"
+00-00-19-93,year,"1993","Music from 1993"
+00-00-19-94,year,"1994","Music from 1994"
+00-00-19-95,year,"1995","Music from 1995"
+00-00-19-96,year,"1996","Music from 1996"
+00-00-19-97,year,"1997","Music from 1997"
+00-00-19-98,year,"1998","Music from 1998"
+00-00-19-99,year,"1999","Music from 1999"
+00-00-20-00,year,"2000","Music from 2000"
+00-00-20-01,year,"2001","Music from 2001"
+00-00-20-02,year,"2002","Music from 2002"
+00-00-20-03,year,"2003","Music from 2003"
+00-00-20-04,year,"2004","Music from 2004"
+00-00-20-05,year,"2005","Music from 2005"
+00-00-20-06,year,"2006","Music from 2006"
+00-00-20-07,year,"2007","Music from 2007"
+00-00-20-08,year,"2008","Music from 2008"
+00-00-20-09,year,"2009","Music from 2009"
+00-00-20-10,year,"2010","Music from 2010"
+00-00-20-11,year,"2011","Music from 2011"
+00-00-20-12,year,"2012","Music from 2012"
+00-00-20-13,year,"2013","Music from 2013"
+00-00-20-14,year,"2014","Music from 2014"
+00-00-20-15,year,"2015","Music from 2015"
+00-00-20-16,year,"2016","Music from 2016"
+00-00-20-17,year,"2017","Music from 2017"
+00-00-20-18,year,"2018","Music from 2018"
+00-00-20-19,year,"2019","Music from 2019"
+00-00-20-20,year,"2020","Music from 2020"
+00-00-20-21,year,"2021","Music from 2021"
+00-00-20-22,year,"2022","Music from 2022"
+00-00-20-23,year,"2023","Music from 2023"
+00-00-20-24,year,"2024","Music from 2024"
+00-00-20-25,year,"2025","Music from 2025"
+00-00-20-26,year,"2026","Music from 2026"
+00-00-20-27,year,"2027","Music from 2027"
+00-00-20-28,year,"2028","Music from 2028"
+00-00-20-29,year,"2029","Music from 2029"
+--url--,,,"Radio and Streaming Stations"
+a6-21-b3-7c,url,"http://opml.radiotime.com/Tune.ashx?id=s24232&formats=aac,ogg,mp3&partnerId=15&serial=59bf631fddda17f8c19e2bc4914096f1","WHOOPIE 100.9 Radio"
+--playlist--,,,"Playlists (played in-order)"
+01-00-00-00,playlist,"Holiday Mix",
+02-00-00-00,playlist,"Fantasy Mix",
+03-00-00-00,playlist,"Billboard Top 100",
+04-00-00-00,playlist,"Ghost in the Shell",
+05-00-00-00,playlist,"Video Game Mix",
+--playlist_shuffle--,,,"Playlists (shuffle)"
+01-01-00-00,playlist_shuffle,"Holiday Mix",
+02-02-00-00,playlist_shuffle,"Fantasy Mix",
+03-03-00-00,playlist_shuffle,"Billboard Top 100",
+04-04-00-00,playlist_shuffle,"Ghost in the Shell",
+05-05-00-00,playlist_shuffle,"Video Game Mix",
+--album--,,,"Albums (played in-order)"
+04-9d-64-6c-bb-2a-81,album,"Compilations/Billboard Top 100 of 1967 (1967)",
+8d-5e-33-b9,album,"Compilations/Billboard Top 100 of 1999 (1999)",
+fc-b2-50-23,album,"Compilations/Billboard Top 100 of 1984 (1984)",
+04-ba-ec-56-bf-2a-81,album,"Compilations/Billboard Top 100 of 2001 (2001)",
+56-78-ac-bc,album,"Compilations/Like, Omigod! The '80s Pop Culture Box (Totally) (2002)",
+25-6d-6d-df,album,"Daft Punk/Random Access Memories (2013)",
+04-07-bc-f2-b4-76-81,album,"Yazoo/Upstairs at Eric's (1982)",
+04-fd-77-ed-78-00-00,album,"Elton John/Goodbye Yellow Brick Road (1973)",
+0a-ef-db-d3,album,"DEVO/Total Devo (1988)",
+2a-b5-e8-d4,album,"DEVO/Now It Can Be Told_ Devo at the Palace 12_9_88 (1989)",
+b5-b3-6d-df,album,"Marilyn Manson/Mechanical Animals (1998)",
+a5-ec-20-df,album,"Kid Rock/Devil Without a Cause (1998)",
+05-51-84-df,album,"Michael Jackson/Thriller (1982)",

@@ -25,3 +25,13 @@ b8:27:eb:4f:71:11 playlist stop
 
 
 b8:27:eb:4f:71:11 playlist index ?
+
+
+16:c9:43:a6:ab:be playlist clear
+
+16:c9:43:a6:ab:be playlist shuffle 1
+16:c9:43:a6:ab:be playlist play /playlist/Holiday%20Mix.m3u
+
+
+16:c9:43:a6:ab:be playlist shuffle 0
+16:c9:43:a6:ab:be playlist play /playlist/Holiday%20Mix.m3u

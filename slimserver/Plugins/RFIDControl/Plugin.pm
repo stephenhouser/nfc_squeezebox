@@ -1,25 +1,10 @@
 #
-# Custom Skip 3
+# RFIDControl
+# (c) 2025 Stephen Houser <stephenhouser@gmail.com>
 #
-# (c) 2021 AF
+# This is a Lyrion Music Server (LMS) plugin to allow control of LMS by
+# tags read from an RFID reader.
 #
-# Based on the CustomSkip plugin by (c) 2006 Erland Isaksson
-#
-# GPLv3 license
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-#
-
 package Plugins::RFIDControl::Plugin;
 
 use strict;
@@ -65,28 +50,17 @@ sub initPlugin {
 
 	initPrefs();
 
-	#Slim::Control::Request::subscribe(\&newSongCallback, [['playlist'], ['newsong']]);
-
-	# Client, Query, Tags
-	Slim::Control::Request::addDispatch(['rfid', 'pair', '_readerid', '?'], [0, 1, 0, \&rfidPairReader]);
-	Slim::Control::Request::addDispatch(['rfid', 'tag', '_tagid'], [1, 0, 0, \&rfidTagChanged]);
-
-	# read tags.csv
-	$tags = load_csv_to_hash(
-    	filename    => '/config/cache/Plugins/RFIDControl/tags.csv',
-    	key_columns => [0],    # Use first column as key; change to [0,1] for composite keys
-    	has_header  => 1       # Set to 1 if the CSV has a header row
-	);
+	# Add our `rfid` command to the CLI dispatch
+	Slim::Control::Request::addDispatch(['rfid', 'tag', '_tagid'], [1, 0, 0, \&handleRfidTag]);
 }
 
 sub postinitPlugin {
-	#Slim::Utils::Timers::setTimer(undef, Time::HiRes::time() + 4, \&initFilters);
-	#registerJiveMenu();
 	main::DEBUGLOG && $log->is_debug && $log->debug('Plugin "RFIDControl" is enabled');
 }
 
 sub weight {
-	return 89;
+	# funny sex number
+	return 69;
 }
 
 sub initPrefs {
@@ -96,49 +70,25 @@ sub initPrefs {
 	});
 
 	$prefs->setValidate({'validator' => 'intlimit', 'low' => 0, 'high' => 1}, 'learnenabled');
-}
 
+	# read saved tag actions from `tags.csv`
+	# TODO: This should be part of the preferences not hardcoded
+	$tags = load_csv_to_hash(
+    	filename    => '/config/cache/Plugins/RFIDControl/tags.csv',
+    	key_columns => [0],    # Use first column as key; change to [0,1] for composite keys
+    	has_header  => 1       # Set to 1 if the CSV has a header row
+	);
+}
 
 ### CLI ###
-# rfid pair 3C:71:BF:83:C0:DC ?
-# returns the client id we control
-sub rfidPairReader {
-	main::DEBUGLOG && $log->is_debug && $log->debug('Entering rfidPairReader');
-	my $request = shift;
-
-	if ($request->isNotQuery([['rfid'],['pair']])) {
-		$log->warn('Incorrect command');
-		$request->setStatusBadDispatch();
-		return;
-	}
-
-	# get our parameters
-	my $readerId = $request->getParam('_readerid');
-	if (!defined $readerId || $readerId eq '') {
-		$log->warn('_readerId not defined');
-		$request->setStatusBadParams();
-		return;
-	}
-
-	$log->error('_readerId '.$readerId.' received');
-
-	# Look up reader - client assignment
-	if ($readerId eq '3C:71:BF:83:C0:DC') {
-		$request->addResult('_clientId', '16:c9:43:a6:ab:be')
-	}
-
-	#$request->addResult('tag', $tagId);
-	$request->setStatusDone();
-}
-
-
 # Launches a tag controlled action based on tag presented
 # sort of like a macro favorites.
 # 16:c9:43:a6:ab:be rfid tag prince
 # 16:c9:43:a6:ab:be rfid tag stop
 # 16:c9:43:a6:ab:be rfid tag 100.9
-sub rfidTagChanged {
-	main::DEBUGLOG && $log->is_debug && $log->debug('Entering rfidTagReceived');
+sub handleRfidTag {
+	main::DEBUGLOG && $log->is_debug && $log->debug('Entering handleRfidTag');
+
 	my $request = shift;
 	my $client = $request->client();
 
@@ -160,7 +110,8 @@ sub rfidTagChanged {
 	my $tagId = $request->getParam('_tagid');
 	if (!defined $tagId || $tagId eq '') {
 		$log->warn('_tagid not defined');
-		$request->setStatusBadParams();
+		$request->setStatusDone();
+		#$request->setStatusBadParams();
 		return;
 	}
 
@@ -171,26 +122,58 @@ sub rfidTagChanged {
 	if ($tagCmd) {
 		my $cmd = $tagCmd->[1];
 		if ($cmd eq 'command') {
-			my @cmdParameters = split(/ /, $tagCmd->[2]);
-			my $request = Slim::Control::Request::executeRequest($client, ['playlist', 'clear']);
+			# Allows for an arbitrary command string to be passed to LMS
+			my @parameters = split(/ /, $tagCmd->[2]);
+			my $request = Slim::Control::Request::executeRequest($client, \@parameters);
+			# my $request = Slim::Control::Request::executeRequest($client, ['playlist', 'clear']);
+
 		} elsif ($cmd eq 'url') {
+			# Play from a URL, e.g. radio station, etc..
 			my $url = $tagCmd->[2];
 			my $request = Slim::Control::Request::executeRequest($client, ['playlist', 'play', $url]);
+
 		} elsif ($cmd eq 'album') {
+			# Play an album in the music library in album order
+			# TODO: music location for albums is hardcoded to /music. Pull from prefs
+			# Slim::Utils::Misc::getAudioDir()
 			my $album = '/music/'.$tagCmd->[2].'/';
+			#Slim::Player::Playlist::shuffle($client, 0);
+			# my $shuffle_request = Slim::Control::Request::executeRequest($client, ['playlist', 'shuffle', '0']);
 			my $request = Slim::Control::Request::executeRequest($client, ['playlist', 'play', $album]);
-		} elsif ($cmd eq 'artist') {
-			my $artist = $tagCmd->[2];
-			my $request = Slim::Control::Request::executeRequest($client, ['dynamicplaylist', 'playlist', 'play', 'dplccustom_play_artist', 'dynamicplaylist_parameter_1:'.$artist]);
-		} elsif ($cmd eq 'genre') {
-			my $genre = $tagCmd->[2];
-			my $request = Slim::Control::Request::executeRequest($client, ['dynamicplaylist', 'playlist', 'play', 'dplccustom_play_genre', 'dynamicplaylist_parameter_1:'.$genre]);
+
+		} elsif ($cmd eq 'playlist') {
+			# Play the playlist in order
+			# TODO: music location for albums is hardcoded to /music. Pull from prefs
+			# Slim::Utils::Misc::getPlaylistDir()
+			my $album = '/playlist/'.$tagCmd->[2].'.m3u';
+			#Slim::Player::Playlist::shuffle($client, 0);
+			# my $shuffle_request = Slim::Control::Request::executeRequest($client, ['playlist', 'shuffle', '0']);
+			my $request = Slim::Control::Request::executeRequest($client, ['playlist', 'play', $album]);
+
 		} elsif ($cmd eq 'year') {
+			# Shuffle, using dynamicplaylist, all the songs from a given year.
+			# Requires dynamic playlist plugin and a dynamic playlist named 'play_year' to be defined
 			my $year = $tagCmd->[2];
 			my $request = Slim::Control::Request::executeRequest($client, ['dynamicplaylist', 'playlist', 'play', 'dplccustom_play_year', 'dynamicplaylist_parameter_1:'.$year]);
+
 		} elsif ($cmd eq 'decade') {
+			# Shuffle, using dynamicplaylist, all the songs from a given decade.
+			# Requires dynamic playlist plugin and a dynamic playlist named 'play_decade' to be defined
 			my $decade = $tagCmd->[2];
 			my $request = Slim::Control::Request::executeRequest($client, ['dynamicplaylist', 'playlist', 'play', 'dplccustom_play_decade', 'dynamicplaylist_parameter_1:'.$decade]);
+
+		} elsif ($cmd eq 'artist') {
+			# Shuffle, using dynamicplaylist, all the songs from a given artist.
+			# Requires dynamic playlist plugin and a dynamic playlist named 'play_artist' to be defined
+			my $artist = $tagCmd->[2];
+			my $request = Slim::Control::Request::executeRequest($client, ['dynamicplaylist', 'playlist', 'play', 'dplccustom_play_artist', 'dynamicplaylist_parameter_1:'.$artist]);
+
+		} elsif ($cmd eq 'genre') {
+			# Shuffle, using dynamicplaylist, all the songs from a given genre.
+			# Requires dynamic playlist plugin and a dynamic playlist named 'play_genre' to be defined
+			my $genre = $tagCmd->[2];
+			my $request = Slim::Control::Request::executeRequest($client, ['dynamicplaylist', 'playlist', 'play', 'dplccustom_play_genre', 'dynamicplaylist_parameter_1:'.$genre]);
+
 		} else {
 			$log->warn('Unknown tag command:' . $cmd . ': ' . $tagCmd->[2]);
 			$request->setStatusBadParams();
@@ -203,16 +186,6 @@ sub rfidTagChanged {
 	}
 
 	$request->setStatusDone();
-}
-
-
-# common
-sub newSongCallback {
-	my $request = shift;
-	my $client = undef;
-	my $command = undef;
-
-	$client = $request->client();
 }
 
 ## for VFD devices ##

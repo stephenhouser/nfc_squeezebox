@@ -7,6 +7,9 @@ esp32:
   framework:
     type: arduino
 
+logger:
+  level: DEBUG
+
 # use components from a local folder
 external_components:
   - source:
@@ -19,8 +22,8 @@ lms:
   id: slimserver
   # server that hosts the LMS
   server: !secret lms_server
-  # LMS client/player to control, hex id
-  client_id: b8:27:eb:4f:71:11
+  # LMS client/player to control
+  player: "office-mini (squeezelite)"
 
 wifi:
   ssid: !secret wifi_ssid

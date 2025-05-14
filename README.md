@@ -1,15 +1,41 @@
-# NFC Jukebox for Lyrion Music Server (LMS)
+# RFID Card Jukebox for Lyrion Music Server (LMS)
 
-Play albums, playlists, and otherwise control a Lyrion Music Server (LMS) with RFID cards. Simply preset an RFID card or tag to an RFID reader and have LMS play your music.
+Play albums, playlists, and streams from a Lyrion Music Server (LMS) with RFID cards. Simply present an RFID card or tag to a reader and have LMS play your music on a preselected player.
 
 There are two parts to the system:
 
-1. an ESPHome external component (lms) to send tags to the LMS
-2. an LMS plugin (RFIDControl) that accepts those tags from the CLI and runs commands.
+1. An [RFID Reader](esphome/) based on ESPHome using a custom external component to talk to LMS.
+2. A [Plugin for LMS](slimserver/Plugins/RFIDControl/) that runs on LMS and accepts control information (tag id's) from the reader.
 
-The reader posts when a tag is read to the LMS plugin. The plugin then uses the tag to run some LMS commands internally to play (or stop) the music.
+The reader sends the unique id of recognized RFID cards to the LMS plugin. The plugin uses the tag to lookup actions to take and executes them. Example actions are, play an album, play a stream, play a playlist (including Dynamic Playlists), stop the music, skip tracks, and more.
 
-Tags and their associated commands are configured in a simple Comma Separated Value (CSV) file. The fields are (in order), the tag ID value in hexadecimal format as sent by the reader, a command type, and any command parameters. `None` as a tag refers to when no tag is present, e.g. a tag was removed.
+These two components are designed to work together, though the ESPHome external component, `lms`, might be useful in further developing a full LMS component for ESPHome.
+
+## Configuration
+
+### ESPHome
+
+The ESPHome external component is configured with the server it should connect to and the player which it will send requests on behalf of. You will need to configure to use the external component from a local source or github.
+
+TODO: test and document using from GitHub
+
+```
+external_components:
+  - source:
+      type: local
+      path: components
+
+lms:
+  id: slimserver
+  server: slimserver
+  player: "Moms Squeezebox"
+```
+
+### LMS Plugin
+
+The LMS plugin does not currently have a settings page in LMS. It's blank.
+
+Actions and the tag id's that trigger them are configured in a simple Comma Separated Value (CSV) file. The fields are (in order), the tag ID value in hexadecimal format as sent by the reader, a command type, and any command parameters. `None` as a tag refers to when no tag is present, e.g. a tag was removed.
 
 An example CSV configuration file:
 

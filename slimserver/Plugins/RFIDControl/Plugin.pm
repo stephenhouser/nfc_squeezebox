@@ -73,6 +73,8 @@ sub initPrefs {
 
 	# read saved tag actions from `tags.csv`
 	# TODO: This should be part of the preferences not hardcoded
+	my $cpath = $prefs->get('rfidcontrolparentfolderpath');
+	$log->debug('Prefs Path='.$cpath);
 	$tags = load_csv_to_hash(
     	filename    => '/config/cache/Plugins/RFIDControl/tags.csv',
     	key_columns => [0],    # Use first column as key; change to [0,1] for composite keys
@@ -115,7 +117,7 @@ sub handleRfidTag {
 		return;
 	}
 
-	$log->error('tag:'.$tagId.' received for client:'.$client->id());
+	$log->info('tag='.$tagId.' received for client='.$client->id());
 
 	# Sort out what to do with the tag...
 	my $tagCmd = $tags->{uc($tagId)};

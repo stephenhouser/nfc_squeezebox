@@ -8,12 +8,12 @@ replay,command,"playlist index -1",skip to previous item on playlist
 --decade--,,,"Decade Playlists (shuffle)"
 19-40-00-00,decade,"1940","Music from 1940's"
 19-50-00-00,decade,"1950","Music from 1950's"
-19-60-00-00,decade,"1960","Music from 1960's"
-19-70-00-00,decade,"1970","Music from 1970's"
-14-5F-C8-05,decade,"1980","Music from 1980's"
-19-90-00-00,decade,"1990","Music from 1990's"
-20-00-00-00,decade,"2000","Music from 2000's"
-20-10-00-00,decade,"2010","Music from 2010's"
+04-93-99-68-21-02-89,decade,"1960","Music from 1960's"
+04-6D-EE-50-BB-2A-81,decade,"1970","Music from 1970's"
+04-93-01-62-21-02-89,decade,"1980","Music from 1980's"
+04-03-75-42-21-02-89,decade,"1990","Music from 1990's"
+04-E3-2E-35-21-02-89,decade,"2000","Music from 2000's"
+04-83-96-42-21-02-89,decade,"2010","Music from 2010's"
 20-20-00-00,decade,"2020","Music from 2020's"
 --year--,,,"Year Playlists (shuffle)"
 00-00-19-40,year,"1940","Music from 1940"
@@ -108,12 +108,13 @@ replay,command,"playlist index -1",skip to previous item on playlist
 00-00-20-29,year,"2029","Music from 2029"
 --url--,,,"Radio and Streaming Stations"
 a6-21-b3-7c,url,"http://opml.radiotime.com/Tune.ashx?id=s24232&formats=aac,ogg,mp3&partnerId=15&serial=59bf631fddda17f8c19e2bc4914096f1","WHOOPIE 100.9 Radio"
+04-33-18-42-21-02-89,url,"WCYY"
 --playlist--,,,"Playlists (played in-order)"
-01-00-00-00,playlist,"Holiday Mix",
-02-00-00-00,playlist,"Fantasy Mix",
-03-00-00-00,playlist,"Billboard Top 100",
-04-00-00-00,playlist,"Ghost in the Shell",
-05-00-00-00,playlist,"Video Game Mix",
+04-F3-41-46-21-02-89,playlist,"Ghost in the Shell"
+04-60-38-70-11-01-89,playlist,"Video Game Mix"
+04-17-E1-6E-11-01-89,playlist,"Fantasy Mix"
+04-0C-E4-6E-11-01-89,playlist,"Holiday Mix"
+04-03-09-66-21-02-89,playlist,"Billboard Top 100"
 --playlist_shuffle--,,,"Playlists (shuffle)"
 01-01-00-00,playlist_shuffle,"Holiday Mix",
 02-02-00-00,playlist_shuffle,"Fantasy Mix",
@@ -125,7 +126,7 @@ a6-21-b3-7c,url,"http://opml.radiotime.com/Tune.ashx?id=s24232&formats=aac,ogg,m
 8d-5e-33-b9,album,"Compilations/Billboard Top 100 of 1999 (1999)",
 fc-b2-50-23,album,"Compilations/Billboard Top 100 of 1984 (1984)",
 04-ba-ec-56-bf-2a-81,album,"Compilations/Billboard Top 100 of 2001 (2001)",
-56-78-ac-bc,album,"Compilations/Like, Omigod! The '80s Pop Culture Box (Totally) (2002)",
+04-E3-D1-6C-21-02-89,album,"Compilations/Like, Omigod! The '80s Pop Culture Box (Totally) (2002)",
 25-6d-6d-df,album,"Daft Punk/Random Access Memories (2013)",
 04-07-bc-f2-b4-76-81,album,"Yazoo/Upstairs at Eric's (1982)",
 04-fd-77-ed-78-00-00,album,"Elton John/Goodbye Yellow Brick Road (1973)",
@@ -134,3 +135,6 @@ fc-b2-50-23,album,"Compilations/Billboard Top 100 of 1984 (1984)",
 b5-b3-6d-df,album,"Marilyn Manson/Mechanical Animals (1998)",
 a5-ec-20-df,album,"Kid Rock/Devil Without a Cause (1998)",
 05-51-84-df,album,"Michael Jackson/Thriller (1982)",
+--artist--,,,"Artist (shuffle)"
+04-43-D4-3A-21-02-89,artist,34545,"DEVO"
+04-B3-D7-73-21-02-89,artist,"33685","Daft Punk"

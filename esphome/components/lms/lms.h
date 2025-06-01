@@ -10,7 +10,13 @@
 #include <cstdlib>
 #include <utility>
 
+
+#ifdef ESP8266
+#include <ESP8266WiFi.h>
+#include <ESPAsyncTCP.h>
+#else
 #include <AsyncTCP.h>
+#endif
 
 namespace esphome {
 namespace lms {

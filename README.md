@@ -59,7 +59,6 @@ Commands are
     - 'year': play a dynamic playlist (preconfigured) to play songs from a year
     - 'command': send the given command directly to the LMS.
 
-
 ### Random
 
 Could add more features to the "box" the cards go in. Not sure I want them.

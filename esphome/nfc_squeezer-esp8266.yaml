@@ -23,8 +23,8 @@ lms:
   # server that hosts the LMS
   server: !secret lms_server
   # LMS client/player to control
-  player: "office-mini (squeezelite)"
-  #player: "Gameroom"
+  #player: "office-mini (squeezelite)"
+  player: "Gameroom"
 
 wifi:
   ssid: !secret wifi_ssid
